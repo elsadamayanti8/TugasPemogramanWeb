@@ -3,37 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Penilaian Mahasiswa</title>
+    <title>Kalkulator Sederhana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center; 
+        }
+        .container {
+            display: flex; 
+            justify-content: center; 
+            margin-top: 20px;
+            flex-direction: column; /* Mengatur agar form dan hasil berada dalam kolom */
+            align-items: center; /* Menyelaraskan item ke tengah */
+        }
+        form {
+            display: flex;
+            flex-direction: column; /* Mengatur input secara vertikal */
+            width: 300px; /* Mengatur lebar form */
+        }
+        input, select, button {
+            margin-bottom: 10px; 
+        }
+        .result {
+            margin-top: 20px; /* Memberikan jarak antara form dan hasil */
+            text-align: center; /* Menyelaraskan teks hasil ke tengah */
+        }
+    </style>
 </head>
 <body>
-    <h1>Aplikasi Penilaian Mahasiswa</h1>
+    <h1>Aplikasi Kalkulator Sederhana</h1>
 
     <div class="container">
         <form method="POST">
-            <input type="number" name="mk1" placeholder="Nilai Mata Kuliah 1" min="0" max="100" required>
-            <input type="number" name="mk2" placeholder="Nilai Mata Kuliah 2" min="0" max="100" required>
-            <input type="number" name="mk3" placeholder="Nilai Mata Kuliah 3" min="0" max="100" required>
-            <button type="submit">Proses</button>
+            <div style="display: flex; justify-content: space-between;">
+                <input type="number" name="angka1" placeholder="Angka 1" required style="flex: 1; margin-right: 5px;">
+                <input type="number" name="angka2" placeholder="Angka 2" required style="flex: 1; margin-left: 5px;">
+            </div>
+            <select name="operasi" required>
+                <option value="">Pilih Operasi</option>
+                <option value="+">Tambah (+)</option>
+                <option value="-">Kurang (-)</option>
+                <option value="*">Kali (*)</option>
+                <option value="/">Bagi (/)</option>
+            </select>
+            <button type="submit">Hitung</button>
         </form>
 
         <div class="result">
             <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $nilai_mk1 = $_POST['mk1'];
-                $nilai_mk2 = $_POST['mk2'];
-                $nilai_mk3 = $_POST['mk3'];
-                $status_kelulusan = '';
-                $nilai_rata_rata = ($nilai_mk1 + $nilai_mk2 + $nilai_mk3) / 3;
+                $angka1 = $_POST['angka1'];
+                $angka2 = $_POST['angka2'];
+                $operasi = $_POST['operasi'];
+                $hasil = 0;
 
-                if ($nilai_rata_rata >= 69) {
-                    $status_kelulusan = 'Lulus ✅';
-                } else {
-                    $status_kelulusan = 'Tidak Lulus ❌';
+                if ($operasi == '+') {
+                    $hasil = $angka1 + $angka2;
+                } elseif ($operasi == '-') {
+                    $hasil = $angka1 - $angka2;
+                } elseif ($operasi == '*') {
+                    $hasil = $angka1 * $angka2;
+                } elseif ($operasi == '/') {
+                    if ($angka2 != 0) {
+                        $hasil = $angka1 / $angka2;
+                    } else {
+                        echo "<p>Kesalahan: Tidak bisa membagi dengan nol.</p>";
+                    }
                 }
-
-                echo "<h2>Hasil Penilaian:</h2>";
-                echo "<p>Rata-rata Nilai: <strong>" . number_format($nilai_rata_rata, 2) . "</strong></p>";
-                echo "<p>Status Kelulusan: <strong>$status_kelulusan</strong></p>";
+                if (isset($hasil)) {
+                    echo "<h2>Hasil: $angka1 $operasi $angka2 = $hasil</h2>"; 
+                }
             }
             ?>
         </div>
