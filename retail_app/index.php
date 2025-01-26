@@ -16,12 +16,12 @@ if(isset($_SESSION['login'])){
 <div class="container d-flex vh-100 align-items-center justify-content-center">
 <div class="card w-25 shadow-sm">
 <div class="card-body"> 
-    <img src="logo.jpeg" alt="Logo" width="50" height="50"><h4 class="card-title text-center">Daisa Beauty</h4>
+    <h4 class="card-title text-center">Retail Application</h4>
 <hr>
 <?php
 if(isset($_SESSION['pesan'])){ 
 ?> 
-<div class="text-center text-danger fs-6"><?= $_SESSION['pesan'];?></div> 
+<div class="text-center text-danger fs-6"><?=$_SESSION['pesan'];?></div> 
 <?php 
 session_unset();
 }
@@ -47,4 +47,5 @@ session_unset();
 </html>
 <?php
 }
+
 ?>

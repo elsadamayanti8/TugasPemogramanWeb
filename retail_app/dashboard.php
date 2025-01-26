@@ -1,10 +1,10 @@
 <?php
+include "koneksi.php";
 session_start();
 if(!isset($_SESSION['login'])){
 header('location:index.php');
 }else{
-    ?>
-
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,6 +13,8 @@ header('location:index.php');
     <title>Retail - Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
   <body class="bg-secondary-subtle">
     <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
@@ -33,6 +35,8 @@ header('location:index.php');
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="?modul=barang">Data Barang </a></li>
             <li><a class="dropdown-item" href="?modul=persediaan">Persediaan Barang</a></li>
+            <li><a class="dropdown-item" href="?modul=kategori">Kategori</a></li>
+            <li><a class="dropdown-item" href="?modul=pemasok">Pemasok</a></li>
           </ul>
         </li>
         <li class="nav-item">
@@ -44,7 +48,7 @@ header('location:index.php');
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-person-circle"></i>
-          Administrator Web
+          <?= $_SESSION['nama_lengkap']; ?>
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="?modul=profile">Profile</a></li>
@@ -58,34 +62,40 @@ header('location:index.php');
   <div class="container-fluid py-3 bg-white shadow-sm">
     <div class="container">
     <?php
-    if(isset($_GET['modul'])){
+      if(isset($_GET['modul'])){
         if($_GET['modul']=="home"){
-            echo "Ini adalah konten home";
+          include "home.php";
         }elseif($_GET['modul']=="barang"){
-            echo "Ini adalah konten barang";
+          include "modul/barang/index.php";
         }elseif($_GET['modul']=="persediaan"){
-            echo "Ini adalah konten persediaan";
+          include "modul/persediaan/index.php";
         }elseif($_GET['modul']=="penjualan"){
-            echo "Ini adalah konten penjualan";
+          include "modul/penjualan/index.php";
         }elseif($_GET['modul']=="pengguna"){
-            echo "Ini adalah konten pengguna";
+          include "modul/pengguna/index.php";
         }elseif($_GET['modul']=="profile"){
-            echo "Ini adalah konten profile";
+          include "modul/profile/index.php";
+        }elseif($_GET['modul']=="kategori"){
+          include "modul/kategori/index.php";
+        }elseif($_GET['modul']=="pemasok"){
+          include "modul/pemasok/index.php";
         }else{
-            echo "Ini adalah konten home";
+          include "home.php";
         }
-    }else{
-        echo "Ini adalah konten home";
-       }
+      }else{
+            include "home.php";
+        }
+    }
     ?>
 </div>
 </div>
 </div>
     <div class="text-center py-3">
     <span>Copyright &copy; 2024 | Retail Application</span>
+    </div>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
 </html>
 <?php
-}
 ?>
